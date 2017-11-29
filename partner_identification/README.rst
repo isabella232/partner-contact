@@ -1,5 +1,4 @@
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
-.. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
@@ -28,7 +27,7 @@ No specific installation step required
 Configuration
 =============
 
-Configure all ID types you need in Sales > Configuration > Contacts > Partner ID Categories.
+Configure all ID types you need in Contacts > Configuration > Partner ID Categories.
 For example, we create a category 'Driver License':
 
 Name:
@@ -41,10 +40,10 @@ Python validation code:
 
   .. code-block:: python
 
-   partner.with_context(id_no_validate=True).write({
-      'name': 'Bad Value',
-      'category_id': self.env.ref('id_category_only_numerics').id,
-   })
+     partner.with_context(id_no_validate=True).write({
+        'name': 'Bad Value',
+        'category_id': self.env.ref('id_category_only_numerics').id,
+     })
 
 Usage
 =====

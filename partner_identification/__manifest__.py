@@ -14,7 +14,7 @@
     'version': '11.0.1.0.0',
     'license': 'AGPL-3',
     'depends': [
-        'sales_team',
+        'contacts',
     ],
     'data': [
         'views/res_partner_id_category_view.xml',
