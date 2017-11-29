@@ -4,13 +4,12 @@
 from psycopg2._psycopg import IntegrityError
 from odoo.tests import common
 from odoo.exceptions import ValidationError
+from odoo.tools import mute_logger
 
 
 class TestPartnerIdentificationBase(common.TransactionCase):
 
-    def test_base_functionalities(self):
-        """Dummy CRUD test
-        """
+    def test_create_id_category(self):
         partner_id_category = self.env['res.partner.id_category'].create({
             'code': 'id_code',
             'name': 'id_name',
@@ -18,13 +17,22 @@ class TestPartnerIdentificationBase(common.TransactionCase):
         self.assertEqual(partner_id_category.name, 'id_name')
         self.assertEqual(partner_id_category.code, 'id_code')
 
+    @mute_logger('odoo.sql_db')
+    def test_update_partner_with_no_category(self):
         partner_1 = self.env.ref('base.res_partner_1')
         self.assertEqual(len(partner_1.id_numbers), 0)
         # create without required category
-        with self.assertRaises(IntegrityError), self.cr.savepoint():
+        with self.assertRaises(IntegrityError):
             partner_1.write({'id_numbers': [(0, 0, {
                 'name': '1234',
             })]})
+
+    def test_update_partner_with_category(self):
+        partner_1 = self.env.ref('base.res_partner_1')
+        partner_id_category = self.env['res.partner.id_category'].create({
+            'code': 'new_code',
+            'name': 'new_name',
+        })
         # successful creation
         partner_1.write({'id_numbers': [(0, 0, {
             'name': '1234',
