@@ -111,14 +111,6 @@ class TestPartnerEmailCheck(SavepointCase):
         self.test_partner.email = "gooddomain-icraglusrk@gmail.com"
         self.assertTrue(self.test_partner.email)
 
-    def test_nondeliverable_addresses_not_allowed(self):
-        self.check_deliverability()
-        with self.assertRaises(ValidationError):
-            # This domain may resolve by mistake on certain network setups
-            # At least until a new version of email-validator is released
-            # See https://github.com/JoshData/python-email-validator/pull/30
-            self.test_partner.email = "cezrik@acoa.nrdkt"
-
     @mute_logger("odoo.addons.partner_email_check.models.res_partner")
     def test_lacking_dependency_does_not_halt_execution(self):
         with patch(
